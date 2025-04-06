@@ -1,0 +1,204 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Hard Hat",
+      "category": "Safety Gear",
+      "description": "Durable hard hat designed for maximum head protection in construction sites.",
+      "price": 49.99,
+      "rating": 4.7,
+      "reviews": 120,
+      "image": "/images/Hardhat.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Safety Glasses",
+      "category": "Safety Gear",
+      "description": "High-impact resistant safety glasses to protect your eyes from debris.",
+      "price": 49.99,
+      "rating": 4.5,
+      "reviews": 98,
+      "image": "/images/Eye-Protection.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Work Gloves",
+      "category": "Safety Gear",
+      "description": "Comfortable and durable gloves for enhanced grip and protection.",
+      "price": 49.99,
+      "rating": 4.6,
+      "reviews": 85,
+      "image": "/images/workgloves.jpg"
+    },
+    {
+      "id": 4,
+      "name": "High-Visibility Vest",
+      "category": "Safety Gear",
+      "description": "Reflective vest for maximum visibility in low-light conditions.",
+      "price": 49.99,
+      "rating": 4.8,
+      "reviews": 150,
+      "image": "/images/high-visibility-vest.jpg"
+    },
+    {
+      "id": 5,
+      "name": "Steel-Toe Boots",
+      "category": "Footwear",
+      "description": "Rugged steel-toe boots designed for safety and comfort on the job.",
+      "price": 49.99,
+      "rating": 4.9,
+      "reviews": 200,
+      "image": "/images/steal-toe.jpg"
+    },
+    {
+      "id": 6,
+      "name": "Ear Protection",
+      "category": "Safety Gear",
+      "description": "Noise-canceling earmuffs to protect hearing in loud environments.",
+      "price": 49.99,
+      "rating": 4.5,
+      "reviews": 70,
+      "image": "/images/ear-protection.jpg"
+    },
+    {
+      "id": 7,
+      "name": "Tool Belt",
+      "category": "Accessories",
+      "description": "Adjustable tool belt with multiple pockets for easy tool access.",
+      "price": 49.99,
+      "rating": 4.6,
+      "reviews": 90,
+      "image": "/images/Tool-belt.jpg"
+    },
+    {
+      "id": 8,
+      "name": "Measuring Tape",
+      "category": "Measurement Tools",
+      "description": "25-ft measuring tape with easy-to-read markings.",
+      "price": 49.99,
+      "rating": 4.7,
+      "reviews": 65,
+      "image": "/images/measuring-tape.jpg"
+    },
+    {
+      "id": 9,
+      "name": "Hammer",
+      "category": "Hand Tools",
+      "description": "Heavy-duty claw hammer for all your construction needs.",
+      "price": 49.99,
+      "rating": 4.8,
+      "reviews": 140,
+      "image": "/images/hammer.jpg"
+    },
+    {
+      "id": 10,
+      "name": "Screwdriver Set",
+      "category": "Hand Tools",
+      "description": "Complete screwdriver set with multiple head types for versatility.",
+      "price": 49.99,
+      "rating": 4.7,
+      "reviews": 110,
+      "image": "/images/screwdriver-set.jpg"
+    },
+    {
+      "id": 11,
+      "name": "Pliers",
+      "category": "Hand Tools",
+      "description": "Multipurpose pliers for gripping, bending, and cutting wires.",
+      "price": 49.99,
+      "rating": 4.6,
+      "reviews": 95,
+      "image": "/images/pliers.jpg"
+    },
+    {
+      "id": 12,
+      "name": "Utility Knife",
+      "category": "Hand Tools",
+      "description": "Sharp and retractable utility knife for precision cutting.",
+      "price": 49.99,
+      "rating": 4.7,
+      "reviews": 85,
+      "image": "/images/utility-knife.jpg"
+    },
+    {
+      "id": 13,
+      "name": "Power Drill",
+      "category": "Power Tools",
+      "description": "High-powered cordless drill with multiple speed settings.",
+      "price": 49.99,
+      "rating": 4.9,
+      "reviews": 200,
+      "image": "/images/power-drill.jpg"
+    },
+    {
+      "id": 14,
+      "name": "Circular Saw",
+      "category": "Power Tools",
+      "description": "Heavy-duty circular saw for precise wood and metal cutting.",
+      "price": 49.99,
+      "rating": 4.8,
+      "reviews": 180,
+      "image": "/images/circular-saw.jpg"
+    },
+    {
+      "id": 15,
+      "name": "Level",
+      "category": "Measurement Tools",
+      "description": "Precision level for accurate alignment in construction projects.",
+      "price": 49.99,
+      "rating": 4.7,
+      "reviews": 100,
+      "image": "/images/beam-level.jpg"
+    },
+    {
+      "id": 16,
+      "name": "Ladder",
+      "category": "Accessories",
+      "description": "Sturdy aluminum ladder for reaching high places safely.",
+      "price": 49.99,
+      "rating": 4.9,
+      "reviews": 160,
+      "image": "/images/ladder.jpg"
+    },
+    {
+      "id": 17,
+      "name": "Wrench Set",
+      "category": "Hand Tools",
+      "description": "Complete wrench set for a wide range of fastening applications.",
+      "price": 49.99,
+      "rating": 4.8,
+      "reviews": 120,
+      "image": "/images/wrench-set.jpg"
+    },
+    {
+      "id": 18,
+      "name": "Chalk Line",
+      "category": "Measurement Tools",
+      "description": "Chalk line tool for marking straight lines on various surfaces.",
+      "price": 49.99,
+      "rating": 4.6,
+      "reviews": 75,
+      "image": "/images/chalk.jpg"
+    },
+    {
+      "id": 19,
+      "name": "Safety Harness",
+      "category": "Safety Gear",
+      "description": "Full-body safety harness for fall protection.",
+      "price": 49.99,
+      "rating": 4.9,
+      "reviews": 200,
+      "image": "/images/safty-harness.jpg"
+    },
+    {
+      "id": 20,
+      "name": "Dust Mask/Respirator",
+      "category": "Safety Gear",
+      "description": "Protective dust mask/respirator for hazardous environments.",
+      "price": 49.99,
+      "rating": 4.8,
+      "reviews": 130,
+      "image": "/images/Duskmask.jpg"
+    }
+  ]
+}
