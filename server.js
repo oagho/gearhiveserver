@@ -1,70 +1,93 @@
-import express from "express";
-import cors from "cors";
-import path from "path";
-import { fileURLToPath } from "url";
-import { readFile } from "fs/promises";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const express = require("express");
+const cors = require("cors");
+const multer = require("multer");
+const Joi = require("joi");
+const fs = require("fs");
+const path = require("path");
 
 const app = express();
-
-// Middleware
+app.use(express.static("public"));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
-app.use(
-  cors({
-    origin: "*", // You can specify your frontend domain instead of '*'
-    methods: ["GET", "POST", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-  })
-);
+app.use(cors());
 
-// Load product data from products.json
+// ✅ Multer config to upload images to /public/images/
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./public/images/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+const upload = multer({ storage });
+
+// ✅ Load existing products from products.json
 let products = [];
-const loadProducts = async () => {
-  try {
-    const data = await readFile(path.join(__dirname, "products.json"), "utf8");
-    products = JSON.parse(data);
-    console.log("✅ Successfully loaded products");
-  } catch (err) {
-    console.error("❌ Error loading products.json:", err.message);
+const productsPath = path.join(__dirname, "products.json");
+
+try {
+  const data = fs.readFileSync(productsPath, "utf-8");
+  const fileData = JSON.parse(data);
+
+  if (Array.isArray(fileData)) {
+    products = fileData; // fallback if file is array only
+  } else if (Array.isArray(fileData.products)) {
+    products = fileData.products;
+  } else {
+    console.warn("⚠️ Invalid products.json format. Starting with empty array.");
+    products = [];
   }
+} catch (err) {
+  console.warn("⚠️ Could not read products.json. Starting with empty array.");
+  products = [];
+}
+
+// ✅ GET all products
+app.get("/api/products", (req, res) => {
+  res.json({ products });
+});
+
+// ✅ POST a new product
+app.post("/api/products", upload.single("image"), (req, res) => {
+  const result = validateProduct(req.body);
+  if (result.error) {
+    return res.status(400).send(result.error.details[0].message);
+  }
+
+  const newProduct = {
+    _id: products.length + 1,
+    name: req.body.name,
+    price: parseFloat(req.body.price),
+    category: req.body.category || "General",
+    image: `/images/${req.file.filename}`, // stored in /public/images/
+  };
+
+  products.push(newProduct);
+
+  // ✅ Write back to JSON file
+  fs.writeFileSync(
+    productsPath,
+    JSON.stringify({ products }, null, 2),
+    "utf-8"
+  );
+
+  res.status(201).json(newProduct);
+});
+
+// ✅ Joi validation schema
+const validateProduct = (product) => {
+  const schema = Joi.object({
+    _id: Joi.allow(""),
+    name: Joi.string().min(3).required(),
+    price: Joi.number().min(0).required(),
+    category: Joi.string().allow("").optional(),
+    image: Joi.allow(""),
+  });
+
+  return schema.validate(product);
 };
 
-// Initialize products on server start
-loadProducts();
-
-// API endpoint to get the list of products
-app.get("/api/products", (req, res) => {
-  try {
-    res.setHeader("Content-Type", "application/json");
-    res.send(JSON.stringify(products, null, 2));
-  } catch (err) {
-    console.error("Error sending products:", err.message);
-    res.status(500).json({ error: "Failed to load products" });
-  }
-});
-
-// API endpoint to get a specific product by ID
-app.get("/api/products/:id", (req, res) => {
-  const productId = parseInt(req.params.id);
-  const product = products.find((p) => p.id === productId);
-  if (product) {
-    res.json(product);
-  } else {
-    res.status(404).json({ error: "Product not found" });
-  }
-});
-
-// Catch-all route to serve index.html for SPA
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
-
-// Start the server
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
+// ✅ Start the server
+app.listen(3001, () => {
+  console.log("🚀 Product server listening on http://localhost:3001");
 });

@@ -1,7 +1,7 @@
 {
   "products": [
     {
-      "id": 1,
+      "_id": 1,
       "name": "Hard Hat",
       "category": "Safety Gear",
       "description": "Durable hard hat designed for maximum head protection in construction sites.",
@@ -11,7 +11,7 @@
       "image": "/images/Hardhat.jpg"
     },
     {
-      "id": 2,
+      "_id": 2,
       "name": "Safety Glasses",
       "category": "Safety Gear",
       "description": "High-impact resistant safety glasses to protect your eyes from debris.",
@@ -21,7 +21,7 @@
       "image": "/images/Eye-Protection.jpg"
     },
     {
-      "id": 3,
+      "_id": 3,
       "name": "Work Gloves",
       "category": "Safety Gear",
       "description": "Comfortable and durable gloves for enhanced grip and protection.",
@@ -31,7 +31,7 @@
       "image": "/images/workgloves.jpg"
     },
     {
-      "id": 4,
+      "_id": 4,
       "name": "High-Visibility Vest",
       "category": "Safety Gear",
       "description": "Reflective vest for maximum visibility in low-light conditions.",
@@ -41,7 +41,7 @@
       "image": "/images/high-visibility-vest.jpg"
     },
     {
-      "id": 5,
+      "_id": 5,
       "name": "Steel-Toe Boots",
       "category": "Footwear",
       "description": "Rugged steel-toe boots designed for safety and comfort on the job.",
@@ -51,7 +51,7 @@
       "image": "/images/steal-toe.jpg"
     },
     {
-      "id": 6,
+      "_id": 6,
       "name": "Ear Protection",
       "category": "Safety Gear",
       "description": "Noise-canceling earmuffs to protect hearing in loud environments.",
@@ -61,7 +61,7 @@
       "image": "/images/ear-protection.jpg"
     },
     {
-      "id": 7,
+      "_id": 7,
       "name": "Tool Belt",
       "category": "Accessories",
       "description": "Adjustable tool belt with multiple pockets for easy tool access.",
@@ -71,7 +71,7 @@
       "image": "/images/Tool-belt.jpg"
     },
     {
-      "id": 8,
+      "_id": 8,
       "name": "Measuring Tape",
       "category": "Measurement Tools",
       "description": "25-ft measuring tape with easy-to-read markings.",
@@ -81,7 +81,7 @@
       "image": "/images/measuring-tape.jpg"
     },
     {
-      "id": 9,
+      "_id": 9,
       "name": "Hammer",
       "category": "Hand Tools",
       "description": "Heavy-duty claw hammer for all your construction needs.",
@@ -91,7 +91,7 @@
       "image": "/images/hammer.jpg"
     },
     {
-      "id": 10,
+      "_id": 10,
       "name": "Screwdriver Set",
       "category": "Hand Tools",
       "description": "Complete screwdriver set with multiple head types for versatility.",
@@ -101,7 +101,7 @@
       "image": "/images/screwdriver-set.jpg"
     },
     {
-      "id": 11,
+      "_id": 11,
       "name": "Pliers",
       "category": "Hand Tools",
       "description": "Multipurpose pliers for gripping, bending, and cutting wires.",
@@ -111,7 +111,7 @@
       "image": "/images/pliers.jpg"
     },
     {
-      "id": 12,
+      "_id": 12,
       "name": "Utility Knife",
       "category": "Hand Tools",
       "description": "Sharp and retractable utility knife for precision cutting.",
@@ -121,7 +121,7 @@
       "image": "/images/utility-knife.jpg"
     },
     {
-      "id": 13,
+      "_id": 13,
       "name": "Power Drill",
       "category": "Power Tools",
       "description": "High-powered cordless drill with multiple speed settings.",
@@ -131,7 +131,7 @@
       "image": "/images/power-drill.jpg"
     },
     {
-      "id": 14,
+      "_id": 14,
       "name": "Circular Saw",
       "category": "Power Tools",
       "description": "Heavy-duty circular saw for precise wood and metal cutting.",
@@ -141,7 +141,7 @@
       "image": "/images/circular-saw.jpg"
     },
     {
-      "id": 15,
+      "_id": 15,
       "name": "Level",
       "category": "Measurement Tools",
       "description": "Precision level for accurate alignment in construction projects.",
@@ -151,7 +151,7 @@
       "image": "/images/beam-level.jpg"
     },
     {
-      "id": 16,
+      "_id": 16,
       "name": "Ladder",
       "category": "Accessories",
       "description": "Sturdy aluminum ladder for reaching high places safely.",
@@ -161,7 +161,7 @@
       "image": "/images/ladder.jpg"
     },
     {
-      "id": 17,
+      "_id": 17,
       "name": "Wrench Set",
       "category": "Hand Tools",
       "description": "Complete wrench set for a wide range of fastening applications.",
@@ -171,7 +171,7 @@
       "image": "/images/wrench-set.jpg"
     },
     {
-      "id": 18,
+      "_id": 18,
       "name": "Chalk Line",
       "category": "Measurement Tools",
       "description": "Chalk line tool for marking straight lines on various surfaces.",
@@ -181,7 +181,7 @@
       "image": "/images/chalk.jpg"
     },
     {
-      "id": 19,
+      "_id": 19,
       "name": "Safety Harness",
       "category": "Safety Gear",
       "description": "Full-body safety harness for fall protection.",
@@ -191,7 +191,7 @@
       "image": "/images/safty-harness.jpg"
     },
     {
-      "id": 20,
+      "_id": 20,
       "name": "Dust Mask/Respirator",
       "category": "Safety Gear",
       "description": "Protective dust mask/respirator for hazardous environments.",
