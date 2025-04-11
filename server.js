@@ -9,6 +9,7 @@ const app = express();
 app.use(express.static("public"));
 app.use(express.json());
 app.use(cors());
+app.use("/images", express.static(path.join(__dirname, "public/images")));
 
 // ✅ Multer config to upload images to /public/images/
 const storage = multer.diskStorage({
