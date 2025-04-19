@@ -30,8 +30,9 @@ try {
   const data = fs.readFileSync(productsPath, "utf-8");
   const fileData = JSON.parse(data);
 
+  // ✅ Load plain array or { products: [...] }
   if (Array.isArray(fileData)) {
-    products = fileData; // fallback if file is array only
+    products = fileData;
   } else if (Array.isArray(fileData.products)) {
     products = fileData.products;
   } else {
@@ -48,6 +49,46 @@ app.get("/api/products", (req, res) => {
   res.json({ products });
 });
 
+// ✅ PUT update a product
+app.put("/api/products/:id", upload.single("image"), (req, res) => {
+  const product = products.find((p) => p._id === parseInt(req.params.id));
+  if (!product) {
+    return res.status(404).send("Product not found");
+  }
+
+  const result = validateProduct(req.body);
+  if (result.error) {
+    return res.status(400).send(result.error.details[0].message);
+  }
+
+  product.name = req.body.name;
+  product.price = parseFloat(req.body.price);
+  product.category = req.body.category || "General";
+  if (req.file) {
+    product.image = `/images/${req.file.filename}`;
+  }
+
+  fs.writeFileSync(productsPath, JSON.stringify(products, null, 2), "utf-8");
+
+  res.status(200).json(product);
+});
+
+// ✅ DELETE a product
+app.delete("/api/products/:id", (req, res) => {
+  const productIndex = products.findIndex(
+    (p) => p._id === parseInt(req.params.id)
+  );
+  if (productIndex === -1) {
+    return res.status(404).send("Product not found");
+  }
+
+  const deleted = products.splice(productIndex, 1)[0];
+
+  fs.writeFileSync(productsPath, JSON.stringify(products, null, 2), "utf-8");
+
+  res.status(200).json(deleted);
+});
+
 // ✅ POST a new product
 app.post("/api/products", upload.single("image"), (req, res) => {
   const result = validateProduct(req.body);
@@ -60,17 +101,12 @@ app.post("/api/products", upload.single("image"), (req, res) => {
     name: req.body.name,
     price: parseFloat(req.body.price),
     category: req.body.category || "General",
-    image: `/images/${req.file.filename}`, // stored in /public/images/
+    image: `/images/${req.file.filename}`,
   };
 
   products.push(newProduct);
 
-  // ✅ Write back to JSON file
-  fs.writeFileSync(
-    productsPath,
-    JSON.stringify({ products }, null, 2),
-    "utf-8"
-  );
+  fs.writeFileSync(productsPath, JSON.stringify(products, null, 2), "utf-8");
 
   res.status(201).json(newProduct);
 });
