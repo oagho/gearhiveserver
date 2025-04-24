@@ -2,127 +2,110 @@ const express = require("express");
 const cors = require("cors");
 const multer = require("multer");
 const Joi = require("joi");
-const fs = require("fs");
 const path = require("path");
+const mongoose = require("mongoose");
 
 const app = express();
+//mongode atlas password lZ2OVrsw81cxN0z0
+// Middleware
 app.use(express.static("public"));
 app.use(express.json());
 app.use(cors());
 app.use("/images", express.static(path.join(__dirname, "public/images")));
 
-// ✅ Multer config to upload images to /public/images/
+// ✅ Connect to MongoDB Atlas
+mongoose
+  .connect(
+    "mongodb+srv://gearhive-database:lZ2OVrsw81cxN0z0@gearhive.a8rzu8f.mongodb.net/gearhive?retryWrites=true&w=majority"
+  )
+  .then(() => console.log("✅ Connected to MongoDB Atlas"))
+  .catch((error) => console.error("❌ MongoDB connection error:", error));
+
+// ✅ Define Mongoose schema and model
+const productSchema = new mongoose.Schema({
+  name: { type: String, required: true, minlength: 3 },
+  price: { type: Number, required: true, min: 0 },
+  category: { type: String, default: "General" },
+  image: { type: String, required: true },
+});
+
+const Product = mongoose.model("Product", productSchema);
+
+// ✅ Multer for image uploads
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./public/images/");
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  },
+  destination: (req, file, cb) => cb(null, "./public/images/"),
+  filename: (req, file, cb) => cb(null, file.originalname),
 });
 const upload = multer({ storage });
-
-// ✅ Load existing products from products.json
-let products = [];
-const productsPath = path.join(__dirname, "products.json");
-
-try {
-  const data = fs.readFileSync(productsPath, "utf-8");
-  const fileData = JSON.parse(data);
-
-  // ✅ Load plain array or { products: [...] }
-  if (Array.isArray(fileData)) {
-    products = fileData;
-  } else if (Array.isArray(fileData.products)) {
-    products = fileData.products;
-  } else {
-    console.warn("⚠️ Invalid products.json format. Starting with empty array.");
-    products = [];
-  }
-} catch (err) {
-  console.warn("⚠️ Could not read products.json. Starting with empty array.");
-  products = [];
-}
-
-// ✅ GET all products
-app.get("/api/products", (req, res) => {
-  res.json({ products });
-});
-
-// ✅ PUT update a product
-app.put("/api/products/:id", upload.single("image"), (req, res) => {
-  const product = products.find((p) => p._id === parseInt(req.params.id));
-  if (!product) {
-    return res.status(404).send("Product not found");
-  }
-
-  const result = validateProduct(req.body);
-  if (result.error) {
-    return res.status(400).send(result.error.details[0].message);
-  }
-
-  product.name = req.body.name;
-  product.price = parseFloat(req.body.price);
-  product.category = req.body.category || "General";
-  if (req.file) {
-    product.image = `/images/${req.file.filename}`;
-  }
-
-  fs.writeFileSync(productsPath, JSON.stringify(products, null, 2), "utf-8");
-
-  res.status(200).json(product);
-});
-
-// ✅ DELETE a product
-app.delete("/api/products/:id", (req, res) => {
-  const productIndex = products.findIndex(
-    (p) => p._id === parseInt(req.params.id)
-  );
-  if (productIndex === -1) {
-    return res.status(404).send("Product not found");
-  }
-
-  const deleted = products.splice(productIndex, 1)[0];
-
-  fs.writeFileSync(productsPath, JSON.stringify(products, null, 2), "utf-8");
-
-  res.status(200).json(deleted);
-});
-
-// ✅ POST a new product
-app.post("/api/products", upload.single("image"), (req, res) => {
-  const result = validateProduct(req.body);
-  if (result.error) {
-    return res.status(400).send(result.error.details[0].message);
-  }
-
-  const newProduct = {
-    _id: products.length + 1,
-    name: req.body.name,
-    price: parseFloat(req.body.price),
-    category: req.body.category || "General",
-    image: `/images/${req.file.filename}`,
-  };
-
-  products.push(newProduct);
-
-  fs.writeFileSync(productsPath, JSON.stringify(products, null, 2), "utf-8");
-
-  res.status(201).json(newProduct);
-});
 
 // ✅ Joi validation schema
 const validateProduct = (product) => {
   const schema = Joi.object({
-    _id: Joi.allow(""),
     name: Joi.string().min(3).required(),
     price: Joi.number().min(0).required(),
     category: Joi.string().allow("").optional(),
-    image: Joi.allow(""),
+    image: Joi.allow(""), // Not checked by Joi as multer handles it
   });
 
   return schema.validate(product);
 };
+
+// ✅ Routes
+
+// Get all products
+app.get("/api/products", async (req, res) => {
+  const products = await Product.find();
+  console.log(products);
+  res.json({ products });
+});
+
+// Add new product
+app.post("/api/products", upload.single("image"), async (req, res) => {
+  const result = validateProduct(req.body);
+  if (result.error)
+    return res.status(400).send(result.error.details[0].message);
+
+  const newProduct = new Product({
+    name: req.body.name,
+    price: parseFloat(req.body.price),
+    category: req.body.category || "General",
+    image: `/images/${req.file.filename}`,
+  });
+
+  await newProduct.save();
+  res.status(201).json(newProduct);
+});
+
+// Update a product
+app.put("/api/products/:id", upload.single("image"), async (req, res) => {
+  const result = validateProduct(req.body);
+  if (result.error)
+    return res.status(400).send(result.error.details[0].message);
+
+  const updateData = {
+    name: req.body.name,
+    price: parseFloat(req.body.price),
+    category: req.body.category || "General",
+  };
+
+  if (req.file) {
+    updateData.image = `/images/${req.file.filename}`;
+  }
+
+  const updated = await Product.findByIdAndUpdate(req.params.id, updateData, {
+    new: true,
+  });
+
+  if (!updated) return res.status(404).send("Product not found");
+  res.status(200).json(updated);
+});
+
+// Delete a product
+app.delete("/api/products/:id", async (req, res) => {
+  const deleted = await Product.findByIdAndDelete(req.params.id);
+  if (!deleted) return res.status(404).send("Product not found");
+  res.status(200).json(deleted);
+});
 
 // ✅ Start the server
 app.listen(3001, () => {
